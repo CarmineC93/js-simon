@@ -10,18 +10,22 @@
 
 // PRIMO milestone
 //[x]generare 5 numeri casuali (e diversi anche se non richiesto) con funzione
-//[x]metterli in un array random
+//[x]metterli in un array random con funzione
 //[x]salvare elemento della pagina in cui visualizzare i numeri in variabile
-    //[x]loggare i 5 numeri con innerhtml 
+    //[x]loggare i 5 numeri con .innerhtml
+    //[x]impostiamo un controllo che impedisce di aggiugnere nuovi numeri a quelli in pagina
 
     //SECONDO milestone
-//al log parte timer set timeout di 30 sec dopo i quali non si visualizzano(come? classe hinner)
-    //e l'utente deve inserire i numeri uno alla volta
-    //questi numeri inseriti dall'utente andranno salvati in una variabile e pushati in un array
-    //SE ci numeri dell'array random uguali ai numeri del utente verrà loggato un messaggio con i numeri uguali
+//[x]al log parte un timer setTimeout di 30 sec dopo i quali non si visualizzano più(add classe hidden)
+    //[x] e l'utente deve inserire i numeri uno alla volta
+    //[x] questi numeri inseriti dall'utente andranno salvati in una variabile e pushati in un array
+    //[] SE ci numeri dell'array random uguali ai numeri dell' utente verrà loggato un messaggio con i numeri uguali
     
 let nmbrs = 5;
 let array5Nmbrs = [];
+
+//creo un array vuoto in cui inserirò i numeri che inserirà l'utente
+let userArrayNmbrs = [];
 
 let inGame = false;
 
@@ -32,27 +36,80 @@ const startBtn = document.querySelector(".btn");
 startBtn.addEventListener("click", function(){
     if(inGame === false){
         array5Nmbrs = generateRndNumberArray(nmbrs, 1, 100);
+        console.log(array5Nmbrs);
         putInPage (array5Nmbrs, cols);
-        inGame = true;
-        startBtn.innerHTML = "";
-        startBtn.innerHTML = "Reset"
+        newGame();
+
+        setTimeout(function(){
+            for(let i=0; i<cols.length; i++)
+            cols[i].classList.add("hidden");    
+        }, 3000);
+
+
+    
     } else { 
         cleaningElement (cols);
-        inGame = false;
-        startBtn.innerHTML = "";
-        startBtn.innerHTML = "New Game"
+        resetGame();
     }
 
 })
 
 
 
+//salvo in variabile il tasto Procedi che farà partire il riempimento dell'array con i numeri dell'utente
+const submitBtn = document.getElementById("submit-btn");
+
+//salvo in variabile il form nel quale l'utente inserisce i numeri
+const inputBoxes = document.querySelector(".form-input");
+console.log(inputBoxes);
+
+//al click del tasto "Procedi" pusho i numeri che l'utente ha inserito nel form in un array
+submitBtn.addEventListener("click", function () {
+    //imposto un controllo che impedisca al click di aggiungere all'array più di 5 numeri
+    if(userArrayNmbrs <= 5){
+    //ciclo l'insieme degli input sulla pagina in modo da estrarne il valore e pusharlo nell'array userArrayNmbrs
+    for(let i = 0; i < inputBoxes.length; i++){
+        const userValue = inputBoxes[i].value;
+        userArrayNmbrs.push(userValue);
+        }
+    }
+
+    //confronto gli elementi dei due array:
+        //Scorro l'array dei numeri dati dall'utente. 
+            //SE uno di quei numeri è dentro l'array dei numeri nascosti,
+            //la classe hidden viene rimossa dall'elemento che ha come valore quel numero
+            //altrimenti si passa al prossimo
+            
+            
+    
+            for(let i=0; i < userArrayNmbrs.length; i++){
+                const nmbrToverify = userArrayNmbrs[i];
+                for(let j = 0 ; j< array5Nmbrs.length; j++){
+                    if(parseInt(nmbrToverify.textContent) === array5Nmbrs[j]){
+                        cell.classList.remove("hidden");
+                    }
+                }
+            }
+
+    /*
+    for(let i = 0; i<userArrayNmbrs.length; i++){
+        let nmbrToVerify = userArrayNmbrs[i];
+        console.log(nmbrToVerify);
+        //if(array5Nmbrs.includes(nmbrToVerify)){
+            for(let j=0; j<cols.length ;j++){
+                if(array5Nmbrs.includes(nmbrToVerify)){
+                  cols[j].classList.remove(hidden)
+                    console.log((cols[j]));  
+                }
+            }
+        }*/
+        console.log(userArrayNmbrs);
+
+ })
 
 
-
-
-
-
+        
+ 
 
 
 
@@ -101,3 +158,27 @@ function cleaningElement (element){
    }
 }
 
+/**
+ * Description: Funzione che cambia stato al flag inGame (entriamo nella partita), ora il tasto serve ad uscire*/
+function newGame(){
+    inGame = true;
+    startBtn.innerHTML = "";
+    startBtn.innerHTML = "Reset Game";
+
+}
+
+/**
+ * Description: Funzione che che cambia stato al flag inGame (usciamo dalla partita), ora il tasto serve ad entrare in partita*/
+function resetGame(){
+    inGame = false;
+    startBtn.innerHTML = "";
+    startBtn.innerHTML = "New Game";
+    const userInputBox = document.getElementsByClassName("user-number");
+    //al reset della partita, anche i valori inseriti dall'utente si resettano
+    for(let i= 0; i <userInputBox.length; i++){
+        userInputBox[i].value = "";
+        //di conseguenza svuoto l'array dell'utente
+        //userArrayNmbrs.pop();
+    }
+
+}

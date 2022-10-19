@@ -46,5 +46,29 @@
 }
 
 .hidden{
-    display: none;
+    background-color: black;
+    color: black;
+}
+
+.user-answers{
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 1rem;
+}
+
+#user-number{
+    width: 4rem;
+    height: 5rem;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.button-space{
+    display: flex;
+    justify-content: center;
+}
+
+.red{
+    color: red;
 }
