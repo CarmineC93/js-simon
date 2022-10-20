@@ -5,6 +5,12 @@
     box-sizing: border-box;
 }
 
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .container{
     width: 500px;
     height: 500px;

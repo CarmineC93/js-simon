@@ -1,25 +1,15 @@
-// Descrizione:
-// Visualizzare in pagina 5 numeri casuali. Da lì parte un timer di 30 secondi.
-// Dopo 30 secondi i numeri spariscono e l'utente deve inserire, uno alla volta, i numeri che ha visto precedentemente, tramite il prompt().
-// Dopo che sono stati inseriti i 5 numeri, il software dice quanti e quali dei numeri da indovinare sono stati individuati.
-// Consigli del giorno:
-// * Pensate prima in italiano.
-// * Dividete in piccoli problemi la consegna.
-// * Individuate gli elementi di cui avete bisogno per realizzare il programma.
-// :avviso:  Ricordatevi che oggi pomeriggio ci sarà il recap sulle funzioni :paperella: :party_blob:
-
 // PRIMO milestone
-//[x]generare 5 numeri casuali (e diversi anche se non richiesto) con funzione
-//[x]metterli in un array random con funzione
-//[x]salvare elemento della pagina in cui visualizzare i numeri in variabile
-    //[x]loggare i 5 numeri con .innerhtml
-    //[x]impostiamo un controllo che impedisce di aggiugnere nuovi numeri a quelli in pagina
+    //[x]generare 5 numeri casuali (e diversi anche se non richiesto) con funzione
+    //[x]metterli in un array random con funzione
+    //[x]salvare elemento della pagina in cui visualizzare i numeri in variabile
+        //[x]loggare i 5 numeri con .innerhtml
+        //[x]impostiamo un controllo che impedisce di aggiugnere nuovi numeri a quelli in pagina
 
-    //SECONDO milestone
-//[x]al log parte un timer setTimeout di 30 sec dopo i quali non si visualizzano più(add classe hidden)
-    //[x] e l'utente deve inserire i numeri uno alla volta
-    //[x] questi numeri inseriti dall'utente andranno salvati in una variabile e pushati in un array
-    //[x] SE ci numeri dell'array random uguali ai numeri dell' utente verrà loggato un messaggio con i numeri uguali
+//SECONDO milestone
+    //[x]al log parte un timer setTimeout di 30 sec dopo i quali non si visualizzano più(add classe hidden)
+        //[x] e l'utente deve inserire i numeri uno alla volta
+        //[x] questi numeri inseriti dall'utente andranno salvati in una variabile e pushati in un array
+        //[x] SE ci sono numeri dell'array random uguali ai numeri dell'utente verranno scoperti i numeri ricordati correttamente
     
 let nmbrs = 5;
 let array5Nmbrs = [];
@@ -27,6 +17,7 @@ let array5Nmbrs = [];
 //creo un array vuoto in cui inserirò i numeri che inserirà l'utente
 let userArrayNmbrs = [];
 
+//variabile flag che inflenza il comportamento del tasto button
 let inGame = false;
 
 //salvo in variabile gruppo di elementi in cui appaiono numeri da memorizzare e a cui darò/toglierò classe hidden
@@ -35,66 +26,64 @@ console.log(cols);
 //salvo in variabile button Start che aziona la generazione/reset dei numeri da memorizzare
 const startBtn = document.querySelector(".btn");
 
-
 startBtn.addEventListener("click", function(){
+    //Se non c'è una partita in corso, si genera un array di 5 numeri casuali tramite funzione
     if(inGame === false){
         array5Nmbrs = generateRndNumberArray(nmbrs, 1, 100);
         console.log(array5Nmbrs);
+        //si inserisce il contenuto dell'array in pagina
         putInPage (array5Nmbrs, cols);
+        //e si cambia stato entrando in partita
         newGame();
 
+        //funzione ti setTimeout che dopo 3 sec nasconde i numeri con classe hidden
         setTimeout(function(){
             for(let i=0; i<cols.length; i++)
-            cols[i].classList.add("hidden");    
+            cols[i].classList.add("hidden");
         }, 3000);
     
     } else { 
+        //Altrimenti se c'è una partita in corso, cliccando sul button viene resettato tutto 
         cleaningElement (cols);
         resetGame();
     }
-
 })
 
-
-
-//salvo in variabile l'elemento button Procedi che farà partire il riempimento dell'array con i numeri dell'utente
+//salvo in variabile l'elemento button Procedi che farà partire il riempimento dell'array con i numeri inseriti dall'utente
 const submitBtn = document.getElementById("submit-btn");
 
 //salvo in variabile il form nel quale l'utente inserisce i numeri
 const inputBoxes = document.querySelector(".form-input");
 console.log(inputBoxes);
 
-
-
 //al click del tasto "Procedi" pusho in un array i numeri che l'utente ha inserito nel form e li confronto, scoprendo quelli corretti
 submitBtn.addEventListener("click", function () {
     //imposto un controllo che impedisca al click di aggiungere all'array più di 5 numeri
     if(userArrayNmbrs <= 5){
     //ciclo l'insieme degli input sulla pagina in modo da estrarne il valore e pusharlo nell'array userArrayNmbrs
-    for(let i = 0; i < inputBoxes.length; i++){
-        const userValue = parseInt(inputBoxes[i].value);
-        userArrayNmbrs.push(userValue);
-        console.log(typeof(userValue));
-        
-        //SE il valore è incluso nell'array dei nm. da memorizzare, si scorre l'array degli elementi sulla pagina
-        //e SE ci sia uguaglianza tra numero nell'array  utente e numero array 5Numbers 
-        //si rimuove la classe Hidden a quegli elementi
+        for(let i = 0; i < inputBoxes.length; i++){
+            const userValue = parseInt(inputBoxes[i].value);
+            userArrayNmbrs.push(userValue);
+            console.log(typeof(userValue));
+            
+            //SE il valore è incluso nell'array dei nm. da memorizzare, 
             if (array5Nmbrs.includes(userValue)){
+                //si scorre l'array degli elementi sulla pagina
                 for(let j=0; j<cols.length; j++){
+                    //e SE ci sia uguaglianza tra numero nell'array utente e numero array da ricordare 
                     if(userValue===array5Nmbrs[j]){
-                        console.log("Questo numero corrisponde: " + userValue );//non vedeva userValue perchè non era un numero come gli elementi dell'array5Nmbrs
+                        //si rimuove la classe Hidden a quegli elementi
+                        console.log("Questo numero corrisponde: " + userValue );
                         cols[j].classList.remove("hidden");
                     }
                 }
             }
-    }
+        }
         console.log("numeri utente: " + userArrayNmbrs);
     }
- 
-
-
  })
 
+ //al click del button reveal la classe hidden viene rimossa rendendo nuovamente visibili tutti i numeri, nel caso il giocatore voglia verificare quali ha dimenticato
  const revealBtn = document.getElementById("reveal-btn");
  revealBtn.addEventListener("click", function () {
     if(array5Nmbrs.length===5){
@@ -103,11 +92,7 @@ submitBtn.addEventListener("click", function () {
  })
 
 
-
-        
- 
-
-//FUNCTIONS
+///////////----------FUNCTIONS----------///////////
 
 
 /**
@@ -160,7 +145,7 @@ function newGame(){
     inGame = true;
     startBtn.innerHTML = "";
     startBtn.innerHTML = "Reset Game";
-
+    removeClass(cols, "hidden")
 }
 
 /**
@@ -174,12 +159,11 @@ function resetGame(){
     //al reset della partita, anche i valori inseriti dall'utente si resettano
     for(let i= 0; i <userArrayNmbrs.length; i++){
         userInputBox[i].value = "";
-        //svuoto l'array dell'utente
-        userArrayNmbrs[i] = "";
-
+        //rimuovo la classe hidden quando il gioco riparte
         removeClass(cols, "hidden");
     }
-
+    //svuoto l'array dell'utente al reset della partita
+    userArrayNmbrs = [];
 }
 
 /**
