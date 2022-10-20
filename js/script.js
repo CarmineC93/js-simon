@@ -29,7 +29,10 @@ let userArrayNmbrs = [];
 
 let inGame = false;
 
+//salvo in variabile gruppo di elementi in cui appaiono numeri da memorizzare e a cui darò/toglierò classe hidden
 const cols = document.querySelectorAll(".col");
+console.log(cols);
+//salvo in variabile button Start che aziona la generazione/reset dei numeri da memorizzare
 const startBtn = document.querySelector(".btn");
 
 
@@ -56,14 +59,16 @@ startBtn.addEventListener("click", function(){
 
 
 
-//salvo in variabile il tasto Procedi che farà partire il riempimento dell'array con i numeri dell'utente
+//salvo in variabile l'elemento button Procedi che farà partire il riempimento dell'array con i numeri dell'utente
 const submitBtn = document.getElementById("submit-btn");
 
 //salvo in variabile il form nel quale l'utente inserisce i numeri
 const inputBoxes = document.querySelector(".form-input");
 console.log(inputBoxes);
 
-//al click del tasto "Procedi" pusho i numeri che l'utente ha inserito nel form in un array
+
+
+//al click del tasto "Procedi" pusho in un array i numeri che l'utente ha inserito nel form e li confronto, scoprendo quelli corretti
 submitBtn.addEventListener("click", function () {
     //imposto un controllo che impedisca al click di aggiungere all'array più di 5 numeri
     if(userArrayNmbrs <= 5){
@@ -71,6 +76,19 @@ submitBtn.addEventListener("click", function () {
     for(let i = 0; i < inputBoxes.length; i++){
         const userValue = inputBoxes[i].value;
         userArrayNmbrs.push(userValue);
+        console.log(userValue);
+        console.log(userArrayNmbrs);
+        
+            //se il valore è incluso nell'array dei nm. da memorizzare, si scorre l'array degli elementi sulla pagina e si scoprono
+            if (array5Nmbrs.includes(userValue)){
+                console.log(userValue);
+                let j = 0;
+                while(array5Nmbrs.includes(userValue)){
+                    cols[j].classList.remove("hidden");
+                    j++
+                    console.log("ciao")
+                }
+            }
         }
     }
 
@@ -79,31 +97,6 @@ submitBtn.addEventListener("click", function () {
             //SE uno di quei numeri è dentro l'array dei numeri nascosti,
             //la classe hidden viene rimossa dall'elemento che ha come valore quel numero
             //altrimenti si passa al prossimo
-            
-            
-    
-            for(let i=0; i < userArrayNmbrs.length; i++){
-                const nmbrToverify = userArrayNmbrs[i];
-                for(let j = 0 ; j< array5Nmbrs.length; j++){
-                    if(parseInt(nmbrToverify.textContent) === array5Nmbrs[j]){
-                        cell.classList.remove("hidden");
-                    }
-                }
-            }
-
-    /*
-    for(let i = 0; i<userArrayNmbrs.length; i++){
-        let nmbrToVerify = userArrayNmbrs[i];
-        console.log(nmbrToVerify);
-        //if(array5Nmbrs.includes(nmbrToVerify)){
-            for(let j=0; j<cols.length ;j++){
-                if(array5Nmbrs.includes(nmbrToVerify)){
-                  cols[j].classList.remove(hidden)
-                    console.log((cols[j]));  
-                }
-            }
-        }*/
-        console.log(userArrayNmbrs);
 
  })
 
@@ -177,7 +170,7 @@ function resetGame(){
     //al reset della partita, anche i valori inseriti dall'utente si resettano
     for(let i= 0; i <userInputBox.length; i++){
         userInputBox[i].value = "";
-        //di conseguenza svuoto l'array dell'utente
+        //di conseguenza svuoto l'array dell'utente --->non funziona
         //userArrayNmbrs.pop();
     }
 
