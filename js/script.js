@@ -14,6 +14,9 @@
 let nmbrs = 5;
 let array5Nmbrs = [];
 
+//impostiamo un timer in mls dopo i quali si eseguiranno le funzioni setTimeout
+let timer = 3000;
+
 //creo un array vuoto in cui inserirò i numeri che inserirà l'utente
 let userArrayNmbrs = [];
 
@@ -40,7 +43,7 @@ startBtn.addEventListener("click", function(){
         setTimeout(function(){
             for(let i=0; i<cols.length; i++)
             cols[i].classList.add("hidden");
-        }, 3000);
+        }, timer);
     
     } else { 
         //Altrimenti se c'è una partita in corso, cliccando sul button viene resettato tutto 
@@ -58,29 +61,32 @@ console.log(inputBoxes);
 
 //al click del tasto "Procedi" pusho in un array i numeri che l'utente ha inserito nel form e li confronto, scoprendo quelli corretti
 submitBtn.addEventListener("click", function () {
-    //imposto un controllo che impedisca al click di aggiungere all'array più di 5 numeri
-    if(userArrayNmbrs <= 5){
-    //ciclo l'insieme degli input sulla pagina in modo da estrarne il valore e pusharlo nell'array userArrayNmbrs
-        for(let i = 0; i < inputBoxes.length; i++){
-            const userValue = parseInt(inputBoxes[i].value);
-            userArrayNmbrs.push(userValue);
-            console.log(typeof(userValue));
-            
-            //SE il valore è incluso nell'array dei nm. da memorizzare, 
-            if (array5Nmbrs.includes(userValue)){
-                //si scorre l'array degli elementi sulla pagina
-                for(let j=0; j<cols.length; j++){
-                    //e SE ci sia uguaglianza tra numero nell'array utente e numero array da ricordare 
-                    if(userValue===array5Nmbrs[j]){
-                        //si rimuove la classe Hidden a quegli elementi
-                        console.log("Questo numero corrisponde: " + userValue );
-                        cols[j].classList.remove("hidden");
+    setTimeout(function(){
+        //imposto un controllo che impedisca al click di aggiungere all'array più di 5 numeri
+        if(userArrayNmbrs <= 5){
+            //ciclo l'insieme degli input sulla pagina in modo da estrarne il valore e pusharlo nell'array userArrayNmbrs
+                for(let i = 0; i < inputBoxes.length; i++){
+                    const userValue = parseInt(inputBoxes[i].value);
+                    userArrayNmbrs.push(userValue);
+                    console.log(typeof(userValue));
+                    
+                    //SE il valore è incluso nell'array dei nm. da memorizzare, 
+                    if (array5Nmbrs.includes(userValue)){
+                        //si scorre l'array degli elementi sulla pagina
+                        for(let j=0; j<cols.length; j++){
+                            //e SE ci sia uguaglianza tra numero nell'array utente e numero array da ricordare 
+                            if(userValue===array5Nmbrs[j]){
+                                //si rimuove la classe Hidden a quegli elementi
+                                console.log("Questo numero corrisponde: " + userValue );
+                                cols[j].classList.remove("hidden");
+                            }
+                        }
                     }
                 }
+                console.log("numeri utente: " + userArrayNmbrs);
             }
-        }
-        console.log("numeri utente: " + userArrayNmbrs);
-    }
+    }, timer + 1000);
+    
  })
 
  //al click del button reveal la classe hidden viene rimossa rendendo nuovamente visibili tutti i numeri, nel caso il giocatore voglia verificare quali ha dimenticato
