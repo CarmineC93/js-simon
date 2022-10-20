@@ -83,7 +83,7 @@ submitBtn.addEventListener("click", function () {
             if (array5Nmbrs.includes(userValue)){
                 console.log(userValue);
                 let j = 0;
-                while(array5Nmbrs.includes(userValue)){
+                while(array5Nmbrs.length<=userArrayNmbrs.length){
                     cols[j].classList.remove("hidden");
                     j++
                     console.log("ciao")
