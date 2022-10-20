@@ -19,7 +19,7 @@
 //[x]al log parte un timer setTimeout di 30 sec dopo i quali non si visualizzano più(add classe hidden)
     //[x] e l'utente deve inserire i numeri uno alla volta
     //[x] questi numeri inseriti dall'utente andranno salvati in una variabile e pushati in un array
-    //[] SE ci numeri dell'array random uguali ai numeri dell' utente verrà loggato un messaggio con i numeri uguali
+    //[x] SE ci numeri dell'array random uguali ai numeri dell' utente verrà loggato un messaggio con i numeri uguali
     
 let nmbrs = 5;
 let array5Nmbrs = [];
@@ -47,8 +47,6 @@ startBtn.addEventListener("click", function(){
             for(let i=0; i<cols.length; i++)
             cols[i].classList.add("hidden");    
         }, 3000);
-
-
     
     } else { 
         cleaningElement (cols);
@@ -84,10 +82,8 @@ submitBtn.addEventListener("click", function () {
             if (array5Nmbrs.includes(userValue)){
                 for(let j=0; j<cols.length; j++){
                     if(userValue===array5Nmbrs[j]){
-                        console.log(userValue); //non lo vedeva perchè userValue non era un numero come gli elementi dell'array5Nmbrs
-                        console.log("CORRISPONDONO");
+                        console.log("Questo numero corrisponde: " + userValue );//non vedeva userValue perchè non era un numero come gli elementi dell'array5Nmbrs
                         cols[j].classList.remove("hidden");
-                        console.log("ciao")
                     }
                 }
             }
@@ -102,8 +98,7 @@ submitBtn.addEventListener("click", function () {
  const revealBtn = document.getElementById("reveal-btn");
  revealBtn.addEventListener("click", function () {
     if(array5Nmbrs.length===5){
-        for(let col = 0; col<cols.length; col++)
-        cols[col].classList.remove("hidden")
+        removeClass(cols, "hidden");
     }
  })
 
@@ -174,12 +169,25 @@ function resetGame(){
     inGame = false;
     startBtn.innerHTML = "";
     startBtn.innerHTML = "New Game";
+
     const userInputBox = document.getElementsByClassName("user-number");
     //al reset della partita, anche i valori inseriti dall'utente si resettano
-    for(let i= 0; i <userInputBox.length; i++){
+    for(let i= 0; i <userArrayNmbrs.length; i++){
         userInputBox[i].value = "";
-        //di conseguenza svuoto l'array dell'utente --->non funziona
-        //userArrayNmbrs.pop();
+        //svuoto l'array dell'utente
+        userArrayNmbrs[i] = "";
+
+        removeClass(cols, "hidden");
     }
 
 }
+
+/**
+ * Description: Funzione che rimuove classe da elementi della pagina in cui appaiono i numeri generati casualmente
+ * @param {element} elemento di un Array o simili da cui rimuovere classe
+ * @param {string} stringa indicante classe da rimuovere
+*/
+ function removeClass(element, className){
+    for(let i = 0; i<element.length; i++)
+    element[i].classList.remove(`${className}`);
+ }
