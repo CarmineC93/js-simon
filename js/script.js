@@ -74,37 +74,45 @@ submitBtn.addEventListener("click", function () {
     if(userArrayNmbrs <= 5){
     //ciclo l'insieme degli input sulla pagina in modo da estrarne il valore e pusharlo nell'array userArrayNmbrs
     for(let i = 0; i < inputBoxes.length; i++){
-        const userValue = inputBoxes[i].value;
+        const userValue = parseInt(inputBoxes[i].value);
         userArrayNmbrs.push(userValue);
-        console.log(userValue);
-        console.log(userArrayNmbrs);
+        console.log(typeof(userValue));
         
-            //se il valore è incluso nell'array dei nm. da memorizzare, si scorre l'array degli elementi sulla pagina e si scoprono
+        //SE il valore è incluso nell'array dei nm. da memorizzare, si scorre l'array degli elementi sulla pagina
+        //e SE ci sia uguaglianza tra numero nell'array  utente e numero array 5Numbers 
+        //si rimuove la classe Hidden a quegli elementi
             if (array5Nmbrs.includes(userValue)){
-                console.log(userValue);
-                let j = 0;
-                while(array5Nmbrs.length<=userArrayNmbrs.length){
-                    cols[j].classList.remove("hidden");
-                    j++
-                    console.log("ciao")
+                for(let j=0; j<cols.length; j++){
+                    if(userValue===array5Nmbrs[j]){
+                        console.log(userValue); //non lo vedeva perchè userValue non era un numero come gli elementi dell'array5Nmbrs
+                        console.log("CORRISPONDONO");
+                        cols[j].classList.remove("hidden");
+                        console.log("ciao")
+                    }
                 }
             }
-        }
     }
+        console.log("numeri utente: " + userArrayNmbrs);
+    }
+ 
 
-    //confronto gli elementi dei due array:
-        //Scorro l'array dei numeri dati dall'utente. 
-            //SE uno di quei numeri è dentro l'array dei numeri nascosti,
-            //la classe hidden viene rimossa dall'elemento che ha come valore quel numero
-            //altrimenti si passa al prossimo
 
  })
+
+ const revealBtn = document.getElementById("reveal-btn");
+ revealBtn.addEventListener("click", function () {
+    if(array5Nmbrs.length===5){
+        for(let col = 0; col<cols.length; col++)
+        cols[col].classList.remove("hidden")
+    }
+ })
+
 
 
         
  
 
-
+//FUNCTIONS
 
 
 /**
@@ -152,7 +160,7 @@ function cleaningElement (element){
 }
 
 /**
- * Description: Funzione che cambia stato al flag inGame (entriamo nella partita), ora il tasto serve ad uscire*/
+ * Description: Funzione che cambia stato al flag inGame (entriamo nella partita): ora il tasto serve ad uscire*/
 function newGame(){
     inGame = true;
     startBtn.innerHTML = "";
@@ -161,7 +169,7 @@ function newGame(){
 }
 
 /**
- * Description: Funzione che che cambia stato al flag inGame (usciamo dalla partita), ora il tasto serve ad entrare in partita*/
+ * Description: Funzione che che cambia stato al flag inGame (usciamo dalla partita): ora il tasto serve ad entrare in partita*/
 function resetGame(){
     inGame = false;
     startBtn.innerHTML = "";
