@@ -10,6 +10,8 @@
 <body>
 <main>
     <div class="container"> 
+        <h1>Memorize the numbers</h1>
+
         <div class="row" id="output">
             <div class="col"></div>
             <div class="col"></div>
@@ -20,9 +22,8 @@
 
         <button class="btn">New Game</button>
 
-        <div id="user-answers">
-
-                <label for="user-number">Inserisci i numeri che ricordi, uno alla volta in ciascuno spazio:</label>
+        <div id="user-answers-space" class="invisible">
+                <label for="user-number"> <strong>Inserisci i numeri che ricordi, uno alla volta in ciascuno spazio:</strong> </label>
                 <div class="user-answers" id="user-box-input">
                 <form action="" class="form-input">
                     <input type="number" name="number" id="user-number"  class="user-number">
